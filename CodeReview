@@ -1,0 +1,38 @@
+
+		@Test (dataProvider = "data-provider")
+		public void testT4277(String scriptIteration) throws InterruptedException, AWTException{
+			driver = (WebDriver) getTestAttribute("driver");
+			
+
+			/** PreReq Data ***/
+		    //Read Investigative Case record from datasheet
+	    	SalesforceConstants.setConstantValue("NON_INV_CASE_ID1", readOutputSheet("Case", false, "Contra"));
+			SalesforceConstants.setConstantValue("NON_INV_CASE_ID1", "FOL-000001518511");
+	    	
+	    	//PreData Setup scenario
+	    	//Running preData setup scenario if non inv case record is null from output data sheet
+	    	if(Objects.isNull(SalesforceConstants.getConstantValue("NON_INV_CASE_ID1")) ){
+		    	NonInvestigativeCaseDataSetup nonInvestigative = new NonInvestigativeCaseDataSetup();
+		    	nonInvestigative.NonInvestigativeCaseDataSetup1("1");
+	    	}
+	    	
+			
+			/** T4277 ***/
+			/////////////////////Login As CM Worker/////////////////////////////////////////////////////
+
+			Login login = new Login(driver);
+	    	login.processLoginNew( scriptIteration,SalesforceConstants.POMITERATION1, SalesforceConstants.CMWORKER); 
+			
+			Home home = new Home(driver);
+			home.closeAllTabs();
+			home.searchFolioRecord(scriptIteration, SalesforceConstants.POMITERATION1);
+			
+			/////add folio Person//////////////////////////////
+			FolioPerson folioPerson = new FolioPerson(driver);
+	        folioPerson.navigateToFolioPersonsTab( scriptIteration, SalesforceConstants.POMITERATION1);
+	        folioPerson.addFolioPerson( scriptIteration, SalesforceConstants.POMITERATION1);
+	        SalesforceCommon.navigateToRecordURL(driver, SalesforceConstants.FOLIO);
+	        Webkeywords.instance().refreshPage(driver);
+	    	folioPerson.navigateToFolioPersonsTab(scriptIteration, SalesforceConstants.POMITERATION1);
+	    	folioPerson.addFolioPerson(scriptIteration, SalesforceConstants.POMITERATION2);
+		    
