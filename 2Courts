@@ -1,0 +1,32 @@
+public void checkStatusOnAmendedRecord( String scriptIteration, String pomIteration) throws InterruptedException{
+
+	PageDetails action = new PageDetails();
+	action.setPageActionName("Check Status On Amended Record");
+	action.setPageActionDescription("Check Status On Amended Record");
+	
+		Map<String, ArrayList<String>>	testCaseDataSd = util.getScreenTCData(screenName, testCaseParam.getTestNGTestMethodName(),TestRunSettings.getTestDataPath(), TestRunSettings.getTestDataMappingFileName() ,TestRunSettings.getTestDataMappingSheetNameSd(),scriptIteration,pomIteration);
+		Webkeywords.instance().pause();
+		
+        Webkeywords.instance().waitElementToBeVisible(driver, status);
+        Webkeywords.instance().scrollUpPageToTheTop(driver);
+        
+        Webkeywords.instance().softAssertTextPOM(status.getText(),testCaseDataSd.get("AMENDED_PETITION_STATUS").get(0), this.getClass().getName(),  "checkStatusOnAmendedRecord", "Status");
+
+        Assert.assertTrue(genericLocators.checkbox(driver,"Amended Petition",testCaseDataSd.get("AMENDED_PETITION_CHECKBOX_VERIFY").get(0)).isSelected(),"Amend Petition Checkbox should be checked but is not");
+
+}
+
+public void verifyRecordsLinked(String scriptIteration, String pomIteration)  {
+	PageDetails action = new PageDetails();
+	
+	action.setPageActionName("Verify Records are linked to Court Case");
+	action.setPageActionDescription("Verify Records are linked to Court Case");
+	
+	Map<String, ArrayList<String>>	testCaseDataSd = util.getScreenTCData(screenName, testCaseParam.getTestNGTestMethodName(),TestRunSettings.getTestDataPath(), TestRunSettings.getTestDataMappingFileName() ,TestRunSettings.getTestDataMappingSheetNameSd(),scriptIteration,pomIteration);
+
+	String expectedPetitioWorkItemID = SalesforceConstants.getConstantValue("PETITION_WORK_ITEM_ID"+pomIteration);
+	String actualPetitionWorkItemID = PetitionWorkItemId.getText();
+	Webkeywords.instance().softAssertText(actualPetitionWorkItemID, expectedPetitioWorkItemID);
+	    
+			
+}
