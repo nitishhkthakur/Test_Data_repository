@@ -1,0 +1,42 @@
+Remova.java->
+method name->selectFamilyCircumstances (line number 206)
+
+Remove this line-> 		Webkeywords.instance().selectInputDropdownValue(driver,testCaseDataSd.get("SUBSTANCE_USER_1").get(0),"Substance User 1",action);
+
+Add line->  Webkeywords.instance().click(driver, substanceUser1,  testCaseDataSd.get("SUBSTANCE_USER_1").get(0),action);
+
+add xpath->
+
+@FindBy(how = How.XPATH, using = "//label[text()='Substance User 1']/..//input")
+	public WebElement substanceUser1;
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+Removal.java
+method name-> verifyRemovalHeaderColumnsInTable
+
+Add line->  at line number 223
+                 Webkeywords.instance().pauseDelay();
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+ YouthPlacementPreferences.java
+methodname-> editYouthPlacementPreference
+
+update line-119 with below line
+SalesforceCommon.verifyToastMessage(driver,"Data Saved Successfully", action);
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PlacementNeeds.java
+method name-> editPlacementNeedsDetails
+
+add this line
+SalesforceCommon.verifyToastMessage(driver,"Data Saved Successfully", action);
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+ParentGuardianPlacementPrefreneces.java
+method name->editParentGuardianPlacementPreference
+
+update line number-126
+SalesforceCommon.verifyToastMessage(driver,"Data Saved Successfully", action);
